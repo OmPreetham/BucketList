@@ -18,6 +18,13 @@ extension ContentView {
         
         var isUnlocked = false
         
+        var modes = ["Standard", "Hybrid"]
+        var selectedMode = "Standard"
+        
+        var alertTitle = ""
+        var alertMessage = ""
+        var showingAlert = false
+        
         func addLocation(at point: CLLocationCoordinate2D) {
             let newLocation = Location(id: UUID(), name: "New location", description: "", latitude: point.latitude, longitude: point.longitude)
             locations.append(newLocation)
@@ -65,11 +72,13 @@ extension ContentView {
                     if success {
                         self.isUnlocked = true
                     } else {
-                        // error
+                        self.alertTitle = "Unable to unlock"
+                        self.alertMessage = authenticationError?.localizedDescription ?? "Unknown Error"
+                        self.showingAlert = true
                     }
                 }
             } else {
-                // no biometrics
+                print("Device doesn't support biometric authentication.")
             }
         }
     }
